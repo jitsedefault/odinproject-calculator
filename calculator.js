@@ -3,7 +3,7 @@ Simple javascript calculator. Homework from The Odin Project.
 Do what you want with it. -jitsedefault
 */
 
-let calcArray = [];
+let mathArray = [];
 let tempArray = [];
 
 // takes input and does things with it
@@ -20,13 +20,13 @@ function calcInput(operator){
     // if operator pressed, stitch numbers together THEN push operator to main array
     else { 
         stitchNumbers();
-        calcArray.push(operator); 
+        mathArray.push(operator); 
     }
     calcDisplay()
 }
 
 function calcDisplay(){
-    document.getElementById("numDisplay").innerHTML = calcArray + tempArray;
+    document.getElementById("numDisplay").innerHTML = mathArray.join(" ") + " " + tempArray.join("");
 }
 
 // stitches multi-digit numbers together and pushes to main array
@@ -36,7 +36,7 @@ function stitchNumbers(){
         for (let i = 0; i < tempArray.length; i++){
             result += tempArray[i];
         }
-        calcArray.push(parseInt(result)); // push to main array
+        mathArray.push(parseInt(result)); // push to main array
         tempArray = []; // reset array
     }
 }
@@ -46,31 +46,31 @@ It then calls the corresponding math function, and finally updates the array wit
 function operate(){
     // look for for and execute every multiplication
     const isX = (element) => element == "x"; // allows us to see if current == x
-    while (calcArray.includes("x")){ // execute multiplication first
-        let oPos = calcArray.findIndex(isX); // find first "x" in array
-        let result = mul(calcArray[oPos-1],calcArray[oPos+1]); // math hours
-        calcArray.splice(oPos-1, 3, result); // replace operator and numbers with result
+    while (mathArray.includes("x")){ // execute multiplication first
+        let oPos = mathArray.findIndex(isX); // find first "x" in array
+        let result = mul(mathArray[oPos-1],mathArray[oPos+1]); // math hours
+        mathArray.splice(oPos-1, 3, result); // replace operator and numbers with result
     }
     // look for for and execute every div
     const isDiv = (element) => element == "/"; 
-    while (calcArray.includes("/")){ 
-        let oPos = calcArray.findIndex(isDiv); 
-        let result = div(calcArray[oPos-1],calcArray[oPos+1]); 
-        calcArray.splice(oPos-1, 3, result); 
+    while (mathArray.includes("/")){ 
+        let oPos = mathArray.findIndex(isDiv); 
+        let result = div(mathArray[oPos-1],mathArray[oPos+1]); 
+        mathArray.splice(oPos-1, 3, result); 
     }
     // look for for and execute every addition
     const isAdd = (element) => element == "+"; 
-    while (calcArray.includes("+")){ 
-        let oPos = calcArray.findIndex(isAdd); 
-        let result = add(calcArray[oPos-1],calcArray[oPos+1]); 
-        calcArray.splice(oPos-1, 3, result); 
+    while (mathArray.includes("+")){ 
+        let oPos = mathArray.findIndex(isAdd); 
+        let result = add(mathArray[oPos-1],mathArray[oPos+1]); 
+        mathArray.splice(oPos-1, 3, result); 
     }
     // look for for and execute every subtraction
     const isSub = (element) => element == "-"; 
-    while (calcArray.includes("-")){ 
-        let oPos = calcArray.findIndex(isSub); 
-        let result = sub(calcArray[oPos-1],calcArray[oPos+1]); 
-        calcArray.splice(oPos-1, 3, result); 
+    while (mathArray.includes("-")){ 
+        let oPos = mathArray.findIndex(isSub); 
+        let result = sub(mathArray[oPos-1],mathArray[oPos+1]); 
+        mathArray.splice(oPos-1, 3, result); 
     }
 }
 
