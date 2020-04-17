@@ -1,43 +1,40 @@
-function calcAdd(numbers){
-    let sum = 0;
-	for (let i = 0; i < numbers.length; i++){
-		sum += numbers[i];
-	}
-	return sum;
-}
+/*
+Simple javascript calculator. Homework from The Odin Project. 
+Do what you want with it. - jitsedefault
+*/
 
-function calcSub(numbers){
-    let sum = 0;
-	for (let i = 0; i < numbers.length; i++){
-		sum -= numbers[i];
-	}
-	return sum;
-}
+let calcArray = [];
 
-function calcMul(numbers){
-    let multiply = numbers[0]; // can't declare variable as zero... because 0*anything=0.
-	for (let i = 1; i < numbers.length; i++){
-		multiply *= numbers[i];
-	}
-	return multiply;
-}
-
-function calcDiv(numbers){
-    return numbers[0] / numbers[1];
-}
-// takes input and performs corresponding tasks
-function operate(){
-    switch(operator){
-        case "add":
-            calcAdd(num1,num2);
-        case "subtract":
-            calcSub(num1,num2);
-        case "multiply":
-            calcMul(num1,num2);
-        case "divide":
-            calcDiv(num1,num2);
+// takes input and does things with it
+function calcInput(operator){
+    if (Number.isInteger(parseInt(operator))){
+        calcArray.push(parseInt(operator));
     }
-    switch(numbers){
-
+    else if (operator == 'equals'){
+        //call spliceyboi
     }
+    else {
+        calcArray.push(operator);
+    }
+    calcDisplay();
+}
+
+function calcDisplay(){
+    document.getElementById("numDisplay").innerHTML = calcArray.toString();
+}
+
+function add(num1,num2){
+    return num1 + num2;
+}
+
+function sub(num1,num2){
+    return num1 - num2;
+}
+
+function mul(num1,num2){
+    return num1 * num2;
+}
+
+function div(num1,num2){
+    return num1 / num2;
 }
