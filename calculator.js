@@ -31,12 +31,14 @@ function calcDisplay(){
 
 // stitches multi-digit numbers together and pushes to main array
 function stitchNumbers(){
-    let result = '';
-    for (let i = 0; i < tempArray.length; i++){
-        result += tempArray[i];
+    if (tempArray.length > 0){
+        let result = '';
+        for (let i = 0; i < tempArray.length; i++){
+            result += tempArray[i];
+        }
+        calcArray.push(parseInt(result)); // push to main array
+        tempArray = []; // reset array
     }
-    calcArray.push(parseInt(result)); // push to main array
-    tempArray = []; // reset array
 }
 
 /* This function looks through the array and splices operators and their corresponding numbers.
