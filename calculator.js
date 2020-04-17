@@ -13,9 +13,13 @@ function calcInput(operator){
         tempArray.push(operator);
     }
     // equals button calls upon operate() to perform maths
-    else if (operator == '='){
+    else if (operator == "="){
         stitchNumbers();
         operate();
+    }
+    // clear calculator
+    else if (operator == "C"){
+        clearCalc();
     }
     // if operator pressed, stitch numbers together THEN push operator to main array
     else { 
@@ -26,7 +30,17 @@ function calcInput(operator){
 }
 
 function calcDisplay(){
-    document.getElementById("numDisplay").innerHTML = mathArray.join(" ") + " " + tempArray.join("");
+    if (mathArray.length == 0 && tempArray.length == 0){
+        document.getElementById("numDisplay").innerHTML = "0";
+    }
+    else {
+        document.getElementById("numDisplay").innerHTML = mathArray.join(" ") + " " + tempArray.join("");
+    }
+}
+
+function clearCalc(){
+    mathArray = [];
+    tempArray = [];
 }
 
 // stitches multi-digit numbers together and pushes to main array
