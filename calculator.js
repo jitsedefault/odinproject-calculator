@@ -3,12 +3,12 @@ Simple javascript calculator. Homework from The Odin Project.
 Do what you want with it. -jitsedefault
 */
 
-let mathArray = [];
-let tempArray = [];
+let mathArray = []; // 'main' array that houses numbers and operators
+let tempArray = []; // numbers are stored while entering, allows for multi-digit
 
 // takes input and does things with it
 function calcInput(operator){
-    // if pressed button is number, push to array
+    // if pressed button is number, push to tempArray first
     if (Number.isInteger(parseInt(operator))){
         tempArray.push(operator);
     }
@@ -21,7 +21,7 @@ function calcInput(operator){
     else if (operator == "C"){
         clearCalc();
     }
-    // if operator pressed, stitch numbers together THEN push operator to main array
+    // if operator pressed, stitch previously entered numbers together THEN push operator to main array
     else { 
         stitchNumbers();
         mathArray.push(operator); 
@@ -30,12 +30,14 @@ function calcInput(operator){
 }
 
 function calcDisplay(){
+    let display = "";
     if (mathArray.length == 0 && tempArray.length == 0){
-        document.getElementById("numDisplay").innerHTML = "0";
+        display = "0";
     }
     else {
-        document.getElementById("numDisplay").innerHTML = mathArray.join(" ") + " " + tempArray.join("");
+        display = mathArray.join(" ") + " " + tempArray.join(""); // display without commas etc
     }
+    document.getElementById("numDisplay").innerHTML = display;
 }
 
 function clearCalc(){
@@ -63,29 +65,34 @@ function operate(){
     while (mathArray.includes("x")){ // execute multiplication first
         let oPos = mathArray.findIndex(isX); // find first "x" in array
         let result = mul(mathArray[oPos-1],mathArray[oPos+1]); // math hours
-        mathArray.splice(oPos-1, 3, result); // replace operator and numbers with result
+        mathArray.splice(oPos-1, 3, round(result,2)); // replace operator and numbers with rounded result
     }
     // look for for and execute every div
     const isDiv = (element) => element == "/"; 
     while (mathArray.includes("/")){ 
         let oPos = mathArray.findIndex(isDiv); 
         let result = div(mathArray[oPos-1],mathArray[oPos+1]); 
-        mathArray.splice(oPos-1, 3, result); 
+        mathArray.splice(oPos-1, 3, round(result,2)); 
     }
     // look for for and execute every addition
     const isAdd = (element) => element == "+"; 
     while (mathArray.includes("+")){ 
         let oPos = mathArray.findIndex(isAdd); 
         let result = add(mathArray[oPos-1],mathArray[oPos+1]); 
-        mathArray.splice(oPos-1, 3, result); 
+        mathArray.splice(oPos-1, 3, round(result,2)); 
     }
     // look for for and execute every subtraction
     const isSub = (element) => element == "-"; 
     while (mathArray.includes("-")){ 
         let oPos = mathArray.findIndex(isSub); 
         let result = sub(mathArray[oPos-1],mathArray[oPos+1]); 
-        mathArray.splice(oPos-1, 3, result); 
+        mathArray.splice(oPos-1, 3, round(result,2)); 
     }
+}
+
+// thanks, Jack Moore
+function round(value, decimals) {
+  return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 }
 
 function add(num1,num2){
