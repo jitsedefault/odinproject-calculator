@@ -6,32 +6,31 @@ Do what you want with it. -jitsedefault
 let mathArray = []; // 'main' array that houses numbers and operators
 let tempArray = []; // numbers are stored while entering, allows for multi-digit
 
-// takes input and does things with it
+// takes input and executes accordingly
 function calcInput(operator){
     // if pressed button is number, push to tempArray first
     if (Number.isInteger(parseInt(operator))){
         tempArray.push(operator);
     }
-    // equals button calls upon operate() to perform maths
-    else if (operator == "="){
-        stitchNumbers();
-        operate();
-    }
-    // clear calculator
-    else if (operator == "C"){
-        clearCalc();
-    }
-    // regrets
-    else if (operator == "BN"){
-        tempArray.pop();
-    }
-    else if (operator == "BO"){
-        mathArray.pop();
-    }
-    // if operator pressed, stitch previously entered numbers together THEN push operator to main array
-    else { 
-        stitchNumbers();
-        mathArray.push(operator); 
+    else {
+        switch (operator){
+            case "=":
+                stitchNumbers();
+                operate();
+                break;
+            case "C":
+                clearCalc();
+                break;
+            case "BN": // remove last entered number
+                tempArray.pop();
+                break;
+            case "BO": // remove last entered operator or "finalized" number
+                mathArray.pop();
+                break;
+            default: // stitch numbers, then push operator to main array
+                stitchNumbers();
+                mathArray.push(operator); 
+        }
     }
     calcDisplay()
 }
@@ -42,6 +41,7 @@ function calcDisplay(){
         display = "0";
     }
     else {
+        document.getElementById("messageDisplay").innerHTML = "";
         display = mathArray.join(" ") + " " + tempArray.join(""); // display without commas etc
     }
     document.getElementById("numDisplay").innerHTML = display;
@@ -79,7 +79,12 @@ function operate(){
     while (mathArray.includes("/")){ 
         let oPos = mathArray.findIndex(isDiv); 
         let result = div(mathArray[oPos-1],mathArray[oPos+1]); 
-        mathArray.splice(oPos-1, 3, round(result,2)); 
+        if (!isFinite(result)){
+            divZero();
+        }
+        else {
+            mathArray.splice(oPos-1, 3, round(result,2)); 
+        }
     }
     // look for for and execute every addition
     const isAdd = (element) => element == "+"; 
@@ -118,4 +123,12 @@ function mul(num1,num2){
 
 function div(num1,num2){
     return num1 / num2;
+}
+
+/* ------ Only runs if user is up to funny business ----- */
+
+function divZero(){
+    mathArray = [];
+    tempArray = [];
+    document.getElementById("messageDisplay").innerHTML = "Funny. Try again.";
 }
