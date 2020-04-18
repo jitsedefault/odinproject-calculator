@@ -21,6 +21,13 @@ function calcInput(operator){
     else if (operator == "C"){
         clearCalc();
     }
+    // regrets
+    else if (operator == "BN"){
+        tempArray.pop();
+    }
+    else if (operator == "BO"){
+        mathArray.pop();
+    }
     // if operator pressed, stitch previously entered numbers together THEN push operator to main array
     else { 
         stitchNumbers();
@@ -90,7 +97,9 @@ function operate(){
     }
 }
 
-// thanks, Jack Moore
+/* ------ Math Stuff ----- */
+
+// Thanks, Jack Moore
 function round(value, decimals) {
   return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 }
